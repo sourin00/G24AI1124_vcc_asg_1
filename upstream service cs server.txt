@@ -1,0 +1,19 @@
+upstream service_cs {
+		server 10.0.2.4:3000;
+		server 10.0.2.6:3000;
+	}
+
+	server {
+		
+		listen 80;
+		server_name dockertst.com;
+	
+
+		location / {
+			proxy_pass http://service_cs;
+			proxy_set_header Host $host;
+			proxy_set_header X-Real-IP $remote_addr;
+			proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		}
+	}
+
